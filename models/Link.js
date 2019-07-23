@@ -10,7 +10,7 @@ const LinkSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  link: {
+  hyperLink: {
     type: String,
     required: true,
   },

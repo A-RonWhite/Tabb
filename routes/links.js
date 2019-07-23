@@ -23,9 +23,41 @@ router.get('/', auth, async (req, res) => {
 // @route   POST api/links
 // @desc    Add new contact
 // @access  Private
-router.post('/', (req, res) => {
-  res.send('Add link');
-});
+router.post(
+  '/',
+  [
+    auth,
+    [
+      check('name', 'Name is required')
+        .not()
+        .isEmpty(),
+    ],
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { name, hyperLink, tag } = req.body;
+
+    try {
+      const newLink = new Link({
+        name,
+        hyperLink,
+        tag,
+        user: req.user.id,
+      });
+
+      const link = await newLink.save();
+
+      res.json(link);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  }
+);
 
 // @route   PUT api/links/:id
 // @desc    Update link
