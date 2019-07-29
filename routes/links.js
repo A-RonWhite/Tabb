@@ -62,15 +62,59 @@ router.post(
 // @route   PUT api/links/:id
 // @desc    Update link
 // @access  Private
-router.put('/:id', (req, res) => {
-  res.send('Update link');
+router.put('/:id', auth, async (req, res) => {
+  const { name, hyperLink, tag } = req.body;
+
+  // Build link object
+  const linkFields = {};
+  if (name) linkFields.name = name;
+  if (hyperLink) linkFields.hyperLink = hyperLink;
+  if (tag) linkFields.tag = tag;
+
+  try {
+    let link = await Link.findById(req.params.id);
+
+    if (!link) return res.status(404).json({ msg: 'Link not found' });
+
+    // Make sure user owns link
+    if (link.user.toString() !== req.user.id) {
+      return res.status(401).json({ msg: 'Not Authorized' });
+    }
+
+    link = await Link.findByIdAndUpdate(
+      req.params.id,
+      { $set: linkFields },
+      { new: true }
+    );
+
+    res.json(link);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
 });
 
 // @route   DELETE api/links/:id
 // @desc    Delete link
 // @access  Private
-router.delete('/:id', (req, res) => {
-  res.send('Delete link');
+router.delete('/:id', auth, async (req, res) => {
+  try {
+    const link = await Link.findById(req.params.id);
+
+    if (!link) return res.status(404).json({ msg: 'Link not found' });
+
+    // Make sure user owns link
+    if (link.user.toString() !== req.user.id) {
+      return res.status(401).json({ msg: 'Not Authorized' });
+    }
+
+    await Link.findByIdAndRemove(req.params.id);
+
+    res.json({ msg: 'Link removed' });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
 });
 
 module.exports = router;
