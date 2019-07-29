@@ -4,15 +4,15 @@ const router = express.Router();
 const { check, validationResult } = require('express-validator/check');
 const auth = require('../middleware/auth');
 
-const User = require('../models/User');
 const Link = require('../models/Link');
+const User = require('../models/User');
 
 // @route   GET api/links
 // @desc    Get all users links
 // @access  Private
 router.get('/', auth, async (req, res) => {
   try {
-    const links = await Link.find({ link: req.user.id }).sort({ date: -1 });
+    const links = await Link.find({ user: req.user.id }).sort({ date: -1 });
     res.json(links);
   } catch (err) {
     console.error(err.message);
@@ -21,7 +21,7 @@ router.get('/', auth, async (req, res) => {
 });
 
 // @route   POST api/links
-// @desc    Add new contact
+// @desc    Add new link
 // @access  Private
 router.post(
   '/',
