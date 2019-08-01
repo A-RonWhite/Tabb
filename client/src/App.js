@@ -4,6 +4,8 @@ import Navbar from './components/layout/Navbar';
 import Home from './components/pages/Home';
 import About from './components/pages/About';
 import './App.css';
+
+// Global State
 import LinkState from './context/link/LinkState';
 
 const App = () => (
