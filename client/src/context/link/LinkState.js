@@ -39,6 +39,10 @@ const LinkState = props => {
   const [state, dispatch] = useReducer(linkReducer, initialState);
 
   // Add Link
+  const addLink = link => {
+    link.id = uuid.v4();
+    dispatch({ type: ADD_LINK, payload: link });
+  };
 
   // Delete Link
 
@@ -56,6 +60,7 @@ const LinkState = props => {
     <LinkContext.Provider
       value={{
         links: state.links,
+        addLink,
       }}
     >
       {props.children}
