@@ -34,6 +34,7 @@ const LinkState = props => {
         tag: 'udemy ting',
       },
     ],
+    current: null,
   };
 
   const [state, dispatch] = useReducer(linkReducer, initialState);
@@ -50,8 +51,14 @@ const LinkState = props => {
   };
 
   // Set current Link
+  const setCurrent = link => {
+    dispatch({ type: SET_CURRENT, payload: link });
+  };
 
   // Clear current contact
+  const clearCurrent = () => {
+    dispatch({ type: CLEAR_CURRENT });
+  };
 
   // Update link
 
@@ -63,8 +70,11 @@ const LinkState = props => {
     <LinkContext.Provider
       value={{
         links: state.links,
+        current: state.current,
         addLink,
         deleteLink,
+        setCurrent,
+        clearCurrent,
       }}
     >
       {props.children}

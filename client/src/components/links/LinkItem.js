@@ -5,12 +5,13 @@ import LinkContext from '../../context/link/linkContext';
 const LinkItem = ({ link }) => {
   const linkContext = useContext(LinkContext);
 
-  const { deleteLink } = linkContext;
+  const { deleteLink, setCurrent, clearCurrent } = linkContext;
 
   const { id, name, hyperLink, tag } = link;
 
   const onDelete = () => {
     deleteLink(id);
+    clearCurrent();
   };
 
   return (
@@ -29,7 +30,12 @@ const LinkItem = ({ link }) => {
         )}
       </ul>
       <p>
-        <button className="btn btn-dark btn-sm">Edit</button>
+        <button
+          className="btn btn-dark btn-sm"
+          onClick={() => setCurrent(link)}
+        >
+          Edit
+        </button>
         <button className="btn btn-danger btn-sm" onClick={onDelete}>
           Delete
         </button>
