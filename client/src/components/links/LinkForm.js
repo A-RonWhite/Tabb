@@ -1,14 +1,28 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import LinkContext from '../../context/link/linkContext';
 
 const LinkForm = () => {
   const linkContext = useContext(LinkContext);
+
+  const { addLink, current, clearCurrent, updateLink } = linkContext;
 
   const [link, setLink] = useState({
     name: '',
     hyperLink: '',
     tag: '',
   });
+
+  useEffect(() => {
+    if (current !== null) {
+      setLink(current);
+    } else {
+      setLink({
+        name: '',
+        hyperLink: '',
+        tag: '',
+      });
+    }
+  }, [current, linkContext]);
 
   const onChange = e =>
     setLink({
@@ -18,19 +32,23 @@ const LinkForm = () => {
 
   const onSubmit = e => {
     e.preventDefault();
-    linkContext.addLink(link);
-    setLink({
-      name: '',
-      hyperLink: '',
-      tag: '',
-    });
+    if (current === null) {
+      addLink(link);
+    } else {
+      updateLink(link);
+    }
+    clearAll();
   };
 
   const { name, hyperLink, tag } = link;
 
+  const clearAll = () => {
+    clearCurrent();
+  };
+
   return (
     <form onSubmit={onSubmit}>
-      <h2 className="text-primary">Add Link</h2>
+      <h2 className="text-primary">{current ? 'Edit Link' : 'Add Link'}</h2>
       <input
         type="text"
         placeholder="Name"
@@ -55,10 +73,17 @@ const LinkForm = () => {
       <div>
         <input
           type="submit"
-          value="Add Link"
+          value={current ? 'Update Link' : 'Add Link'}
           className="btn btn-primary btn-block"
         />
       </div>
+      {current && (
+        <div>
+          <button className="btn btn-light btn-block" onClick={clearAll}>
+            Clear
+          </button>
+        </div>
+      )}
     </form>
   );
 };

@@ -61,6 +61,9 @@ const LinkState = props => {
   };
 
   // Update link
+  const updateLink = link => {
+    dispatch({ type: UPDATE_LINK, payload: link });
+  };
 
   // Filter link
 
@@ -75,6 +78,7 @@ const LinkState = props => {
         deleteLink,
         setCurrent,
         clearCurrent,
+        updateLink,
       }}
     >
       {props.children}

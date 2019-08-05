@@ -15,6 +15,13 @@ export default (state, action) => {
         ...state,
         links: [...state.links, action.payload],
       };
+    case UPDATE_LINK:
+      return {
+        ...state,
+        links: state.links.map(link =>
+          link.id === action.payload.id ? action.payload : link
+        ),
+      };
     case DELETE_LINK:
       return {
         ...state,
