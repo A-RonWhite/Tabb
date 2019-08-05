@@ -45,6 +45,9 @@ const LinkState = props => {
   };
 
   // Delete Link
+  const deleteLink = id => {
+    dispatch({ type: DELETE_LINK, payload: id });
+  };
 
   // Set current Link
 
@@ -61,6 +64,7 @@ const LinkState = props => {
       value={{
         links: state.links,
         addLink,
+        deleteLink,
       }}
     >
       {props.children}
