@@ -37,6 +37,19 @@ export default (state, action) => {
         ...state,
         current: null,
       };
+    case FILTER_LINKS:
+      return {
+        ...state,
+        filtered: state.links.filter(link => {
+          const regex = new RegExp(`${action.payload}`, 'gi');
+          return link.name.match(regex) || link.tag.match(regex);
+        }),
+      };
+    case CLEAR_FILTER:
+      return {
+        ...state,
+        filtered: null,
+      };
     default:
       return state;
   }
