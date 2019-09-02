@@ -10,7 +10,8 @@ const LinkFilter = () => {
     if (filtered === null) {
       text.current.value = '';
     }
-  });
+    // eslint-disable-next-line
+  }, []);
 
   const onChange = e => {
     if (text.current.value !== '') {
