@@ -25,7 +25,7 @@ const LinkItem = ({ link }) => {
       <ul className="list">
         {hyperLink && (
           <li>
-            <i className="fas fa-envelope-open">{hyperLink}</i>
+            <i className="fas fa-envelope-open"> {hyperLink}</i>
           </li>
         )}
       </ul>

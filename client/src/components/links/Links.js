@@ -1,4 +1,5 @@
 import React, { Fragment, useContext } from 'react';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import LinkItem from './LinkItem';
 import LinkContext from '../../context/link/linkContext';
 
@@ -13,9 +14,19 @@ const Links = () => {
 
   return (
     <Fragment>
-      {filtered !== null
-        ? filtered.map(link => <LinkItem key={link.id} link={link} />)
-        : links.map(link => <LinkItem key={link.id} link={link} />)}
+      <TransitionGroup>
+        {filtered !== null
+          ? filtered.map(link => (
+              <CSSTransition key={link.id} timeout={500} classNames="item">
+                <LinkItem link={link} />
+              </CSSTransition>
+            ))
+          : links.map(link => (
+              <CSSTransition key={link.id} timeout={500} classNames="item">
+                <LinkItem link={link} />
+              </CSSTransition>
+            ))}
+      </TransitionGroup>
     </Fragment>
   );
 };
