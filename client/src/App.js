@@ -7,19 +7,22 @@ import './App.css';
 
 // Global State
 import LinkState from './context/link/LinkState';
+import AuthState from './context/auth/AuthState';
 
 const App = () => (
-  <LinkState>
-    <Router>
-      <Navbar />
-      <div className="container">
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route exact path="/about" component={About} />
-        </Switch>
-      </div>
-    </Router>
-  </LinkState>
+  <AuthState>
+    <LinkState>
+      <Router>
+        <Navbar />
+        <div className="container">
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/about" component={About} />
+          </Switch>
+        </div>
+      </Router>
+    </LinkState>
+  </AuthState>
 );
 
 export default App;
