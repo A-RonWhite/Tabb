@@ -13,6 +13,13 @@ import LinkState from './context/link/LinkState';
 import AuthState from './context/auth/AuthState';
 import AlertState from './context/alert/AlertState';
 
+// Setting user token globally
+import setAuthToken from './utils/setAuthToken';
+
+if (localStorage.token) {
+  setAuthToken(localStorage.token);
+}
+
 const App = () => (
   <AuthState>
     <LinkState>
