@@ -17,12 +17,12 @@ const Links = () => {
       <TransitionGroup>
         {filtered !== null
           ? filtered.map(link => (
-              <CSSTransition key={link.id} timeout={500} classNames="item">
+              <CSSTransition key={link._id} timeout={500} classNames="item">
                 <LinkItem link={link} />
               </CSSTransition>
             ))
           : links.map(link => (
-              <CSSTransition key={link.id} timeout={500} classNames="item">
+              <CSSTransition key={link._id} timeout={500} classNames="item">
                 <LinkItem link={link} />
               </CSSTransition>
             ))}

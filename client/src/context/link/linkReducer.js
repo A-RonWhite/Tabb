@@ -6,6 +6,7 @@ import {
   UPDATE_LINK,
   FILTER_LINKS,
   CLEAR_FILTER,
+  LINK_ERROR,
 } from '../types';
 
 export default (state, action) => {
@@ -49,6 +50,11 @@ export default (state, action) => {
       return {
         ...state,
         filtered: null,
+      };
+    case LINK_ERROR:
+      return {
+        ...state,
+        error: action.payload,
       };
     default:
       return state;

@@ -1,6 +1,5 @@
 import React, { useReducer } from 'react';
 import axios from 'axios';
-import uuid from 'uuid';
 import LinkContext from './linkContext';
 import linkReducer from './linkReducer';
 import {
@@ -11,6 +10,7 @@ import {
   UPDATE_LINK,
   FILTER_LINKS,
   CLEAR_FILTER,
+  LINK_ERROR,
 } from '../types';
 
 const LinkState = props => {
@@ -18,14 +18,26 @@ const LinkState = props => {
     links: [],
     current: null,
     filtered: null,
+    error: null,
   };
 
   const [state, dispatch] = useReducer(linkReducer, initialState);
 
   // Add Link
-  const addLink = link => {
-    link.id = uuid.v4();
-    dispatch({ type: ADD_LINK, payload: link });
+  const addLink = async link => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    try {
+      const res = await axios.post('api/links', link, config);
+
+      dispatch({ type: ADD_LINK, payload: res.data });
+    } catch (err) {
+      dispatch({ type: LINK_ERROR, payload: err.response.msg });
+    }
   };
 
   // Delete Link
@@ -64,6 +76,7 @@ const LinkState = props => {
         links: state.links,
         current: state.current,
         filtered: state.filtered,
+        error: state.error,
         addLink,
         deleteLink,
         setCurrent,
