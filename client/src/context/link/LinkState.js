@@ -1,4 +1,5 @@
 import React, { useReducer } from 'react';
+import axios from 'axios';
 import uuid from 'uuid';
 import LinkContext from './linkContext';
 import linkReducer from './linkReducer';
@@ -14,26 +15,7 @@ import {
 
 const LinkState = props => {
   const initialState = {
-    links: [
-      {
-        id: 1,
-        name: 'league',
-        hyperLink: 'wwww.league.com',
-        tag: 'league ting',
-      },
-      {
-        id: 2,
-        name: 'google',
-        hyperLink: 'wwww.google.com',
-        tag: 'google ting',
-      },
-      {
-        id: 3,
-        name: 'udemy',
-        hyperLink: 'wwww.udemy.com',
-        tag: 'udemy ting',
-      },
-    ],
+    links: [],
     current: null,
     filtered: null,
   };
