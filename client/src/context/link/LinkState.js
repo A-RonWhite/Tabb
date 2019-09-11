@@ -3,6 +3,8 @@ import axios from 'axios';
 import LinkContext from './linkContext';
 import linkReducer from './linkReducer';
 import {
+  GET_LINKS,
+  CLEAR_LINKS,
   ADD_LINK,
   DELETE_LINK,
   SET_CURRENT,
@@ -15,13 +17,25 @@ import {
 
 const LinkState = props => {
   const initialState = {
-    links: [],
+    links: null,
     current: null,
     filtered: null,
     error: null,
   };
 
   const [state, dispatch] = useReducer(linkReducer, initialState);
+
+  // Get Links
+
+  const getLinks = async () => {
+    try {
+      const res = await axios.get('api/links');
+
+      dispatch({ type: GET_LINKS, payload: res.data });
+    } catch (err) {
+      dispatch({ type: LINK_ERROR, payload: err.response.msg });
+    }
+  };
 
   // Add Link
   const addLink = async link => {
@@ -43,6 +57,11 @@ const LinkState = props => {
   // Delete Link
   const deleteLink = id => {
     dispatch({ type: DELETE_LINK, payload: id });
+  };
+
+  // Clear links
+  const clearLinks = () => {
+    dispatch({ type: CLEAR_LINKS });
   };
 
   // Set current Link
@@ -84,6 +103,8 @@ const LinkState = props => {
         updateLink,
         filterLinks,
         clearFilter,
+        getLinks,
+        clearLinks,
       }}
     >
       {props.children}
