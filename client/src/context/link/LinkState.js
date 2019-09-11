@@ -29,7 +29,7 @@ const LinkState = props => {
 
   const getLinks = async () => {
     try {
-      const res = await axios.get('api/links');
+      const res = await axios.get('/api/links');
 
       dispatch({ type: GET_LINKS, payload: res.data });
     } catch (err) {
@@ -46,7 +46,7 @@ const LinkState = props => {
     };
 
     try {
-      const res = await axios.post('api/links', link, config);
+      const res = await axios.post('/api/links', link, config);
 
       dispatch({ type: ADD_LINK, payload: res.data });
     } catch (err) {
@@ -57,9 +57,26 @@ const LinkState = props => {
   // Delete Link
   const deleteLink = async id => {
     try {
-      await axios.delete(`api/links/${id}`);
+      await axios.delete(`/api/links/${id}`);
 
       dispatch({ type: DELETE_LINK, payload: id });
+    } catch (err) {
+      dispatch({ type: LINK_ERROR, payload: err.response.msg });
+    }
+  };
+
+  // Update link
+  const updateLink = async link => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    try {
+      const res = await axios.put(`/api/links/${link._id}`, link, config);
+
+      dispatch({ type: UPDATE_LINK, payload: res.data });
     } catch (err) {
       dispatch({ type: LINK_ERROR, payload: err.response.msg });
     }
@@ -78,11 +95,6 @@ const LinkState = props => {
   // Clear current contact
   const clearCurrent = () => {
     dispatch({ type: CLEAR_CURRENT });
-  };
-
-  // Update link
-  const updateLink = link => {
-    dispatch({ type: UPDATE_LINK, payload: link });
   };
 
   // Filter link

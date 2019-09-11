@@ -29,7 +29,7 @@ export default (state, action) => {
       return {
         ...state,
         links: state.links.map(link =>
-          link.id === action.payload.id ? action.payload : link
+          link._id === action.payload._id ? action.payload : link
         ),
         loading: false,
       };
