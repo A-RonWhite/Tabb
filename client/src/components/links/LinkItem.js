@@ -7,10 +7,10 @@ const LinkItem = ({ link }) => {
 
   const { deleteLink, setCurrent, clearCurrent } = linkContext;
 
-  const { id, name, hyperLink, tag } = link;
+  const { _id, name, hyperLink, tag } = link;
 
   const onDelete = () => {
-    deleteLink(id);
+    deleteLink(_id);
     clearCurrent();
   };
 

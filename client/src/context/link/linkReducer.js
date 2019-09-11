@@ -22,7 +22,7 @@ export default (state, action) => {
     case ADD_LINK:
       return {
         ...state,
-        links: [...state.links, action.payload],
+        links: [action.payload, ...state.links],
         loading: false,
       };
     case UPDATE_LINK:
@@ -36,7 +36,7 @@ export default (state, action) => {
     case DELETE_LINK:
       return {
         ...state,
-        links: state.links.filter(link => link.id !== action.payload),
+        links: state.links.filter(link => link._id !== action.payload),
         loading: false,
       };
     case CLEAR_LINKS:

@@ -55,8 +55,14 @@ const LinkState = props => {
   };
 
   // Delete Link
-  const deleteLink = id => {
-    dispatch({ type: DELETE_LINK, payload: id });
+  const deleteLink = async id => {
+    try {
+      await axios.delete(`api/links/${id}`);
+
+      dispatch({ type: DELETE_LINK, payload: id });
+    } catch (err) {
+      dispatch({ type: LINK_ERROR, payload: err.response.msg });
+    }
   };
 
   // Clear links
